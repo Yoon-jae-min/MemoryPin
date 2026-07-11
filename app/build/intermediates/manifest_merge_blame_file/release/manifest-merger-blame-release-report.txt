@@ -1,0 +1,672 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.memorypin"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="35" />
+10
+11    <!-- 위치: 연결이 끊긴 순간의 위치를 저장 -->
+12    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+12-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:6:5-79
+12-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:6:22-76
+13    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+13-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:7:5-81
+13-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:7:22-78
+14    <!-- 백그라운드에서도 끊김 시점에 위치를 저장 -->
+15    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+15-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:9:5-85
+15-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:9:22-82
+16
+17    <!-- 블루투스: 연결/끊김 감지 (Android 12+) -->
+18    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+18-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:12:5-76
+18-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:12:22-73
+19    <!-- 구형 단말 호환 -->
+20    <uses-permission
+20-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:14:5-15:38
+21        android:name="android.permission.BLUETOOTH"
+21-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:14:22-65
+22        android:maxSdkVersion="30" />
+22-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:15:9-35
+23
+24    <!-- 알림 -->
+25    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+25-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:18:5-77
+25-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:18:22-74
+26
+27    <!-- 광고 -->
+28    <uses-permission android:name="android.permission.INTERNET" />
+28-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:21:5-67
+28-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:21:22-64
+29
+30    <!-- 포그라운드 서비스 -->
+31    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+31-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:24:5-77
+31-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:24:22-74
+32    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+32-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:25:5-86
+32-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:25:22-83
+33
+34    <uses-feature
+34-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:27:5-29:36
+35        android:name="android.hardware.bluetooth"
+35-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:28:9-50
+36        android:required="false" />
+36-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:29:9-33
+37
+38    <queries>
+38-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:31:5-61:15
+39        <intent>
+39-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:32:9-35:18
+40            <action android:name="android.intent.action.VIEW" />
+40-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+40-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+41
+42            <data android:scheme="geo" />
+42-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+42-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+43        </intent>
+44        <intent>
+44-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:36:9-39:18
+45            <action android:name="android.intent.action.VIEW" />
+45-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+45-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+46
+47            <data android:scheme="google.navigation" />
+47-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+47-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+48        </intent>
+49        <intent>
+49-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:40:9-43:18
+50            <action android:name="android.intent.action.VIEW" />
+50-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+50-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+51
+52            <data android:scheme="kakaomap" />
+52-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+52-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+53        </intent>
+54        <intent>
+54-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:44:9-47:18
+55            <action android:name="android.intent.action.VIEW" />
+55-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+55-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+56
+57            <data android:scheme="nmap" />
+57-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+57-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+58        </intent>
+59        <intent>
+59-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:48:9-51:18
+60            <action android:name="android.intent.action.VIEW" />
+60-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+60-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+61
+62            <data android:scheme="tmap" />
+62-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+62-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+63        </intent>
+64        <intent>
+64-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:52:9-55:18
+65            <action android:name="android.intent.action.VIEW" />
+65-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+65-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+66
+67            <data android:scheme="waze" />
+67-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+67-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+68        </intent>
+69        <intent>
+69-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:56:9-60:18
+70            <action android:name="android.intent.action.VIEW" />
+70-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+70-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+71
+72            <data android:scheme="https" />
+72-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+72-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+73            <data android:host="www.google.com" />
+73-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+73-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:59:19-48
+74        </intent>
+75        <!-- For browser content -->
+76        <intent>
+76-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:38:9-44:18
+77            <action android:name="android.intent.action.VIEW" />
+77-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+77-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+78
+79            <category android:name="android.intent.category.BROWSABLE" />
+79-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:41:13-74
+79-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:41:23-71
+80
+81            <data android:scheme="https" />
+81-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+81-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+82        </intent> <!-- End of browser content -->
+83        <!-- For CustomTabsService -->
+84        <intent>
+84-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:47:9-49:18
+85            <action android:name="android.support.customtabs.action.CustomTabsService" />
+85-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:48:13-90
+85-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:48:21-87
+86        </intent> <!-- End of CustomTabsService -->
+87        <!-- For MRAID capabilities -->
+88        <intent>
+88-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:52:9-56:18
+89            <action android:name="android.intent.action.INSERT" />
+89-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:53:13-67
+89-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:53:21-64
+90
+91            <data android:mimeType="vnd.android.cursor.dir/event" />
+91-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+92        </intent>
+93        <intent>
+93-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:57:9-61:18
+94            <action android:name="android.intent.action.VIEW" />
+94-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:13-65
+94-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:33:21-62
+95
+96            <data android:scheme="sms" />
+96-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+96-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:19-39
+97        </intent>
+98        <intent>
+98-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:62:9-66:18
+99            <action android:name="android.intent.action.DIAL" />
+99-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:63:13-65
+99-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:63:21-62
+100
+101            <data android:path="tel:" />
+101-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:34:13-42
+102        </intent>
+103    </queries>
+104
+105    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+105-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:25:5-79
+105-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:25:22-76
+106    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+106-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:26:5-79
+106-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:26:22-76
+107    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
+107-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:27:5-82
+107-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:27:22-79
+108    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" />
+108-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:28:5-88
+108-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:28:22-85
+109    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_TOPICS" />
+109-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:29:5-83
+109-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:29:22-80
+110    <uses-permission android:name="android.permission.WAKE_LOCK" />
+110-->[com.google.android.gms:play-services-measurement-sdk-api:20.1.2] C:\Users\androidJM\.gradle\caches\8.9\transforms\259a0804df4b1d64d7d2a5a9ed32b0c4\transformed\play-services-measurement-sdk-api-20.1.2\AndroidManifest.xml:25:5-68
+110-->[com.google.android.gms:play-services-measurement-sdk-api:20.1.2] C:\Users\androidJM\.gradle\caches\8.9\transforms\259a0804df4b1d64d7d2a5a9ed32b0c4\transformed\play-services-measurement-sdk-api-20.1.2\AndroidManifest.xml:25:22-65
+111
+112    <permission
+112-->[androidx.core:core:1.13.1] C:\Users\androidJM\.gradle\caches\8.9\transforms\9fe07fc25b5354b28ea54d96fd5042dc\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+113        android:name="com.memorypin.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+113-->[androidx.core:core:1.13.1] C:\Users\androidJM\.gradle\caches\8.9\transforms\9fe07fc25b5354b28ea54d96fd5042dc\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+114        android:protectionLevel="signature" />
+114-->[androidx.core:core:1.13.1] C:\Users\androidJM\.gradle\caches\8.9\transforms\9fe07fc25b5354b28ea54d96fd5042dc\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+115
+116    <uses-permission android:name="com.memorypin.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+116-->[androidx.core:core:1.13.1] C:\Users\androidJM\.gradle\caches\8.9\transforms\9fe07fc25b5354b28ea54d96fd5042dc\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+116-->[androidx.core:core:1.13.1] C:\Users\androidJM\.gradle\caches\8.9\transforms\9fe07fc25b5354b28ea54d96fd5042dc\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+117
+118    <application
+118-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:63:5-122:19
+119        android:name="com.memorypin.MemoryPinApp"
+119-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:64:9-37
+120        android:allowBackup="true"
+120-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:65:9-35
+121        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+121-->[androidx.core:core:1.13.1] C:\Users\androidJM\.gradle\caches\8.9\transforms\9fe07fc25b5354b28ea54d96fd5042dc\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+122        android:extractNativeLibs="false"
+123        android:icon="@mipmap/ic_launcher"
+123-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:66:9-43
+124        android:label="@string/app_name"
+124-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:67:9-41
+125        android:roundIcon="@mipmap/ic_launcher_round"
+125-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:68:9-54
+126        android:supportsRtl="true"
+126-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:69:9-35
+127        android:theme="@style/Theme.MemoryPin" >
+127-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:70:9-47
+128        <meta-data
+128-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:72:9-74:52
+129            android:name="com.google.android.gms.ads.APPLICATION_ID"
+129-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:73:13-69
+130            android:value="@string/admob_app_id" />
+130-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:74:13-49
+131
+132        <activity
+132-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:76:9-84:20
+133            android:name="com.memorypin.ui.SplashActivity"
+133-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:77:13-46
+134            android:exported="true"
+134-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:78:13-36
+135            android:theme="@style/Theme.MemoryPin.Splash" >
+135-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:79:13-58
+136            <intent-filter>
+136-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:80:13-83:29
+137                <action android:name="android.intent.action.MAIN" />
+137-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:81:17-69
+137-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:81:25-66
+138
+139                <category android:name="android.intent.category.LAUNCHER" />
+139-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:82:17-77
+139-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:82:27-74
+140            </intent-filter>
+141        </activity>
+142        <activity
+142-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:86:9-89:54
+143            android:name="com.memorypin.ui.MainActivity"
+143-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:87:13-44
+144            android:exported="false"
+144-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:88:13-37
+145            android:theme="@style/Theme.MemoryPin" />
+145-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:89:13-51
+146        <activity
+146-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:91:9-94:54
+147            android:name="com.memorypin.ui.AddItemActivity"
+147-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:92:13-47
+148            android:exported="false"
+148-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:93:13-37
+149            android:theme="@style/Theme.MemoryPin" />
+149-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:94:13-51
+150        <activity
+150-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:96:9-99:54
+151            android:name="com.memorypin.ui.SpotDetailActivity"
+151-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:97:13-50
+152            android:exported="false"
+152-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:98:13-37
+153            android:theme="@style/Theme.MemoryPin" />
+153-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:99:13-51
+154        <activity
+154-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:101:9-104:54
+155            android:name="com.memorypin.ui.SettingsActivity"
+155-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:102:13-48
+156            android:exported="false"
+156-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:103:13-37
+157            android:theme="@style/Theme.MemoryPin" />
+157-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:104:13-51
+158
+159        <service
+159-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:106:9-110:56
+160            android:name="com.memorypin.service.MonitorService"
+160-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:107:13-51
+161            android:enabled="true"
+161-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:108:13-35
+162            android:exported="false"
+162-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:109:13-37
+163            android:foregroundServiceType="location" />
+163-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:110:13-53
+164
+165        <receiver
+165-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:112:9-120:20
+166            android:name="com.memorypin.receiver.NotificationActionReceiver"
+166-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:113:13-64
+167            android:exported="false" >
+167-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:114:13-37
+168            <intent-filter>
+168-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:115:13-119:29
+169                <action android:name="com.memorypin.action.CARRYING_TOGETHER" />
+169-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:116:17-81
+169-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:116:25-78
+170                <action android:name="com.memorypin.action.TRACK_DEVICE_YES" />
+170-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:117:17-80
+170-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:117:25-77
+171                <action android:name="com.memorypin.action.TRACK_DEVICE_NO" />
+171-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:118:17-79
+171-->C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\AndroidManifest.xml:118:25-76
+172            </intent-filter>
+173        </receiver>
+174
+175        <provider
+175-->[androidx.emoji2:emoji2:1.2.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9d9b059cf828e79955916f041020c5f3\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+176            android:name="androidx.startup.InitializationProvider"
+176-->[androidx.emoji2:emoji2:1.2.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9d9b059cf828e79955916f041020c5f3\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+177            android:authorities="com.memorypin.androidx-startup"
+177-->[androidx.emoji2:emoji2:1.2.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9d9b059cf828e79955916f041020c5f3\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+178            android:exported="false" >
+178-->[androidx.emoji2:emoji2:1.2.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9d9b059cf828e79955916f041020c5f3\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+179            <meta-data
+179-->[androidx.emoji2:emoji2:1.2.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9d9b059cf828e79955916f041020c5f3\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+180                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+180-->[androidx.emoji2:emoji2:1.2.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9d9b059cf828e79955916f041020c5f3\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+181                android:value="androidx.startup" />
+181-->[androidx.emoji2:emoji2:1.2.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9d9b059cf828e79955916f041020c5f3\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+182            <meta-data
+182-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:36:13-38:52
+183                android:name="androidx.work.WorkManagerInitializer"
+183-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:37:17-68
+184                android:value="androidx.startup" />
+184-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:38:17-49
+185            <meta-data
+185-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9178bfa7d48128e65f5f39d6965e6cc1\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+186                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+186-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9178bfa7d48128e65f5f39d6965e6cc1\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+187                android:value="androidx.startup" />
+187-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\9178bfa7d48128e65f5f39d6965e6cc1\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+188            <meta-data
+188-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+189                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+189-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+190                android:value="androidx.startup" />
+190-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+191        </provider>
+192
+193        <activity
+193-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\0d4ac904fee9eba62f1985c4858a5ee9\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
+194            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+194-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\0d4ac904fee9eba62f1985c4858a5ee9\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
+195            android:exported="false"
+195-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\0d4ac904fee9eba62f1985c4858a5ee9\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
+196            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
+196-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\0d4ac904fee9eba62f1985c4858a5ee9\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
+197        <activity
+197-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:73:9-78:43
+198            android:name="com.google.android.gms.ads.AdActivity"
+198-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:74:13-65
+199            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+199-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:75:13-122
+200            android:exported="false"
+200-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:76:13-37
+201            android:theme="@android:style/Theme.Translucent" />
+201-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:77:13-61
+202
+203        <provider
+203-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:80:9-85:43
+204            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
+204-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:81:13-76
+205            android:authorities="com.memorypin.mobileadsinitprovider"
+205-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:82:13-73
+206            android:exported="false"
+206-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:83:13-37
+207            android:initOrder="100" />
+207-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:84:13-36
+208
+209        <service
+209-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:87:9-91:43
+210            android:name="com.google.android.gms.ads.AdService"
+210-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:88:13-64
+211            android:enabled="true"
+211-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:89:13-35
+212            android:exported="false" />
+212-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:90:13-37
+213
+214        <activity
+214-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:93:9-97:43
+215            android:name="com.google.android.gms.ads.OutOfContextTestingActivity"
+215-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:94:13-82
+216            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+216-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:95:13-122
+217            android:exported="false" />
+217-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:96:13-37
+218        <activity
+218-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:98:9-105:43
+219            android:name="com.google.android.gms.ads.NotificationHandlerActivity"
+219-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:99:13-82
+220            android:excludeFromRecents="true"
+220-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:100:13-46
+221            android:exported="false"
+221-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:101:13-37
+222            android:launchMode="singleTask"
+222-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:102:13-44
+223            android:taskAffinity=""
+223-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:103:13-36
+224            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+224-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:104:13-72
+225
+226        <property
+226-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:107:9-109:62
+227            android:name="android.adservices.AD_SERVICES_CONFIG"
+227-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:108:13-65
+228            android:resource="@xml/gma_ad_services_config" />
+228-->[com.google.android.gms:play-services-ads-lite:23.6.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\7f754ed4db77a61a50dd787eb66f408b\transformed\play-services-ads-lite-23.6.0\AndroidManifest.xml:109:13-59
+229
+230        <meta-data
+230-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\40159fd9e455096a234fba20f4dcab33\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
+231            android:name="com.google.android.gms.version"
+231-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\40159fd9e455096a234fba20f4dcab33\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
+232            android:value="@integer/google_play_services_version" />
+232-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\40159fd9e455096a234fba20f4dcab33\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
+233
+234        <service
+234-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:41:9-46:35
+235            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+235-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:42:13-88
+236            android:directBootAware="false"
+236-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:43:13-44
+237            android:enabled="@bool/enable_system_alarm_service_default"
+237-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:44:13-72
+238            android:exported="false" />
+238-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:45:13-37
+239        <service
+239-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:47:9-53:35
+240            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+240-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:48:13-84
+241            android:directBootAware="false"
+241-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:49:13-44
+242            android:enabled="@bool/enable_system_job_service_default"
+242-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:50:13-70
+243            android:exported="true"
+243-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:51:13-36
+244            android:permission="android.permission.BIND_JOB_SERVICE" />
+244-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:52:13-69
+245        <service
+245-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:54:9-59:35
+246            android:name="androidx.work.impl.foreground.SystemForegroundService"
+246-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:55:13-81
+247            android:directBootAware="false"
+247-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:56:13-44
+248            android:enabled="@bool/enable_system_foreground_service_default"
+248-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:57:13-77
+249            android:exported="false" />
+249-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:58:13-37
+250
+251        <receiver
+251-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:61:9-66:35
+252            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+252-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:62:13-88
+253            android:directBootAware="false"
+253-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:63:13-44
+254            android:enabled="true"
+254-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:64:13-35
+255            android:exported="false" />
+255-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:65:13-37
+256        <receiver
+256-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:67:9-77:20
+257            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+257-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:68:13-106
+258            android:directBootAware="false"
+258-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:69:13-44
+259            android:enabled="false"
+259-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:70:13-36
+260            android:exported="false" >
+260-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:71:13-37
+261            <intent-filter>
+261-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:73:13-76:29
+262                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+262-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:74:17-87
+262-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:74:25-84
+263                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+263-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:75:17-90
+263-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:75:25-87
+264            </intent-filter>
+265        </receiver>
+266        <receiver
+266-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:78:9-88:20
+267            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+267-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:79:13-104
+268            android:directBootAware="false"
+268-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:80:13-44
+269            android:enabled="false"
+269-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:81:13-36
+270            android:exported="false" >
+270-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:82:13-37
+271            <intent-filter>
+271-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:84:13-87:29
+272                <action android:name="android.intent.action.BATTERY_OKAY" />
+272-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:85:17-77
+272-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:85:25-74
+273                <action android:name="android.intent.action.BATTERY_LOW" />
+273-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:86:17-76
+273-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:86:25-73
+274            </intent-filter>
+275        </receiver>
+276        <receiver
+276-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:89:9-99:20
+277            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+277-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:90:13-104
+278            android:directBootAware="false"
+278-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:91:13-44
+279            android:enabled="false"
+279-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:92:13-36
+280            android:exported="false" >
+280-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:93:13-37
+281            <intent-filter>
+281-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:95:13-98:29
+282                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+282-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:96:17-83
+282-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:96:25-80
+283                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+283-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:97:17-82
+283-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:97:25-79
+284            </intent-filter>
+285        </receiver>
+286        <receiver
+286-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:100:9-109:20
+287            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+287-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:101:13-103
+288            android:directBootAware="false"
+288-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:102:13-44
+289            android:enabled="false"
+289-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:103:13-36
+290            android:exported="false" >
+290-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:104:13-37
+291            <intent-filter>
+291-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:106:13-108:29
+292                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+292-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:107:17-79
+292-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:107:25-76
+293            </intent-filter>
+294        </receiver>
+295        <receiver
+295-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:110:9-121:20
+296            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+296-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:111:13-88
+297            android:directBootAware="false"
+297-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:112:13-44
+298            android:enabled="false"
+298-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:113:13-36
+299            android:exported="false" >
+299-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:114:13-37
+300            <intent-filter>
+300-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:116:13-120:29
+301                <action android:name="android.intent.action.BOOT_COMPLETED" />
+301-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:117:17-79
+301-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:117:25-76
+302                <action android:name="android.intent.action.TIME_SET" />
+302-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:118:17-73
+302-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:118:25-70
+303                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+303-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:119:17-81
+303-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:119:25-78
+304            </intent-filter>
+305        </receiver>
+306        <receiver
+306-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:122:9-131:20
+307            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+307-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:123:13-99
+308            android:directBootAware="false"
+308-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:124:13-44
+309            android:enabled="@bool/enable_system_alarm_service_default"
+309-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:125:13-72
+310            android:exported="false" >
+310-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:126:13-37
+311            <intent-filter>
+311-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:128:13-130:29
+312                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+312-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:129:17-98
+312-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:129:25-95
+313            </intent-filter>
+314        </receiver>
+315        <receiver
+315-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:132:9-142:20
+316            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+316-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:133:13-78
+317            android:directBootAware="false"
+317-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:134:13-44
+318            android:enabled="true"
+318-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:135:13-35
+319            android:exported="true"
+319-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:136:13-36
+320            android:permission="android.permission.DUMP" >
+320-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:137:13-57
+321            <intent-filter>
+321-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:139:13-141:29
+322                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+322-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:140:17-88
+322-->[androidx.work:work-runtime:2.7.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\d9c792ac11a9361b7268ee40321a8c27\transformed\work-runtime-2.7.0\AndroidManifest.xml:140:25-85
+323            </intent-filter>
+324        </receiver>
+325
+326        <uses-library
+326-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\androidJM\.gradle\caches\8.9\transforms\d5103b30782b849b2d772b52417bd468\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:23:9-25:40
+327            android:name="android.ext.adservices"
+327-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\androidJM\.gradle\caches\8.9\transforms\d5103b30782b849b2d772b52417bd468\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:24:13-50
+328            android:required="false" />
+328-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\androidJM\.gradle\caches\8.9\transforms\d5103b30782b849b2d772b52417bd468\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:25:13-37
+329
+330        <receiver
+330-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+331            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+331-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+332            android:directBootAware="false"
+332-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+333            android:enabled="true"
+333-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+334            android:exported="true"
+334-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+335            android:permission="android.permission.DUMP" >
+335-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+336            <intent-filter>
+336-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+337                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+337-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+337-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+338            </intent-filter>
+339            <intent-filter>
+339-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+340                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+340-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+340-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+341            </intent-filter>
+342            <intent-filter>
+342-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+343                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+343-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+343-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+344            </intent-filter>
+345            <intent-filter>
+345-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+346                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+346-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+346-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\androidJM\.gradle\caches\8.9\transforms\e4c1d06fae60f66af728e65994209a7e\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+347            </intent-filter>
+348        </receiver>
+349
+350        <service
+350-->[androidx.room:room-runtime:2.2.5] C:\Users\androidJM\.gradle\caches\8.9\transforms\9c85a7fd1aa8b7b1022ea960bfea42fa\transformed\room-runtime-2.2.5\AndroidManifest.xml:25:9-28:40
+351            android:name="androidx.room.MultiInstanceInvalidationService"
+351-->[androidx.room:room-runtime:2.2.5] C:\Users\androidJM\.gradle\caches\8.9\transforms\9c85a7fd1aa8b7b1022ea960bfea42fa\transformed\room-runtime-2.2.5\AndroidManifest.xml:26:13-74
+352            android:directBootAware="true"
+352-->[androidx.room:room-runtime:2.2.5] C:\Users\androidJM\.gradle\caches\8.9\transforms\9c85a7fd1aa8b7b1022ea960bfea42fa\transformed\room-runtime-2.2.5\AndroidManifest.xml:27:13-43
+353            android:exported="false" />
+353-->[androidx.room:room-runtime:2.2.5] C:\Users\androidJM\.gradle\caches\8.9\transforms\9c85a7fd1aa8b7b1022ea960bfea42fa\transformed\room-runtime-2.2.5\AndroidManifest.xml:28:13-37
+354    </application>
+355
+356</manifest>

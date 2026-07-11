@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 브랜드 -->
+    <color name="primary">#4C6FFF</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#E6ECFF</color>
+    <color name="on_primary_container">#0E1A52</color>
+
+    <!-- 표면/배경 -->
+    <color name="background">#F5F6FB</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#EDEFF7</color>
+    <color name="on_surface">#1A1C22</color>
+    <color name="on_surface_variant">#5C6172</color>
+    <color name="outline">#E2E5EF</color>
+
+    <!-- 상태 -->
+    <color name="error">#E5484D</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="success">#2BB673</color>
+
+    <!-- 포인트(핀) -->
+    <color name="pin">#FF6B6B</color>
+
+    <!-- 런처 아이콘 -->
+    <color name="ic_launcher_background">#4C6FFF</color>
+
+    <!-- 기기 타입 색상 -->
+    <color name="type_car">#4C6FFF</color>
+    <color name="type_earbuds">#7C5CFC</color>
+    <color name="type_speaker">#00A99D</color>
+    <color name="type_watch">#F4845F</color>
+    <color name="type_tag">#E5484D</color>
+    <color name="type_other">#5C6172</color>
+</resources>
