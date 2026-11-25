@@ -3,10 +3,15 @@ package com.memorypin.ui
 import android.Manifest
 import android.location.Geocoder
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.setPadding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.memorypin.R
@@ -14,6 +19,7 @@ import com.memorypin.connection.SourceType
 import com.memorypin.data.DeclinedDevice
 import com.memorypin.data.ItemIcon
 import com.memorypin.data.MemoryPinRepository
+import com.memorypin.data.QuietPlace
 import com.memorypin.databinding.ActivitySettingsBinding
 import com.memorypin.location.LocationProvider
 import com.memorypin.service.MonitorService
@@ -26,19 +32,36 @@ import kotlinx.coroutines.withContext
 
 class SettingsActivity : AppCompatActivity() {
 
+    private enum class PendingLocationAction {
+        HOME, WORK, FAVORITE
+    }
+
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var locationProvider: LocationProvider
     private var binding_ui = false
+    private var pendingLocationAction = PendingLocationAction.HOME
 
     private val declinedAdapter = DeclinedDeviceAdapter(
         onTrackAgain = { trackAgain(it) },
         onRemove = { removeFromDeclinedList(it) }
     )
 
+    private val favoriteAdapter = QuietPlaceAdapter(
+        onRemove = { removeFavorite(it) }
+    )
+
     private val requestLocationLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) registerHomeHere() else toast(R.string.perm_location_rationale)
+        if (!granted) {
+            toast(R.string.perm_location_rationale)
+            return@registerForActivityResult
+        }
+        when (pendingLocationAction) {
+            PendingLocationAction.HOME -> registerHomeHere()
+            PendingLocationAction.WORK -> registerWorkHere()
+            PendingLocationAction.FAVORITE -> promptFavoriteNameThenRegister()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +74,12 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.recyclerDeclined.layoutManager = LinearLayoutManager(this)
         binding.recyclerDeclined.adapter = declinedAdapter
+        binding.recyclerFavorites.layoutManager = LinearLayoutManager(this)
+        binding.recyclerFavorites.adapter = favoriteAdapter
+        binding.tvFavoriteDesc.text = getString(
+            R.string.settings_favorite_desc,
+            AppSettings.MAX_FAVORITE_PLACES
+        )
 
         binding.btnBack.setOnClickListener { finish() }
         binding.btnSetHome.setOnClickListener { onSetHomeClicked() }
@@ -59,27 +88,22 @@ class SettingsActivity : AppCompatActivity() {
             bindHomeSection()
             toast(R.string.settings_home_cleared)
         }
+        binding.btnSetWork.setOnClickListener { onSetWorkClicked() }
+        binding.btnClearWork.setOnClickListener {
+            AppSettings.clearWork(this)
+            bindWorkSection()
+            toast(R.string.settings_work_cleared)
+        }
+        binding.btnAddFavorite.setOnClickListener { onAddFavoriteClicked() }
 
         binding.switchLeftBehind.setOnCheckedChangeListener { _, checked ->
             if (binding_ui) return@setOnCheckedChangeListener
             AppSettings.setLeftBehindEnabled(this, checked)
-            updateSensitivityEnabled(checked)
         }
 
         binding.switchAutoRegister.setOnCheckedChangeListener { _, checked ->
             if (binding_ui) return@setOnCheckedChangeListener
             AppSettings.setAutoRegisterOnConnectEnabled(this, checked)
-        }
-
-        binding.toggleSensitivity.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            if (binding_ui || !isChecked) return@addOnButtonCheckedListener
-            val sensitivity = when (checkedId) {
-                R.id.btnNear -> AppSettings.Sensitivity.NEAR
-                R.id.btnFar -> AppSettings.Sensitivity.FAR
-                else -> AppSettings.Sensitivity.NORMAL
-            }
-            AppSettings.setSensitivity(this, sensitivity)
-            updateHint(sensitivity)
         }
 
         bindCurrentValues()
@@ -88,6 +112,8 @@ class SettingsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         bindHomeSection()
+        bindWorkSection()
+        bindFavoriteSection()
         bindDeclinedSection()
     }
 
@@ -98,16 +124,9 @@ class SettingsActivity : AppCompatActivity() {
         binding.switchLeftBehind.isChecked = enabled
         binding.switchAutoRegister.isChecked = AppSettings.isAutoRegisterOnConnectEnabled(this)
 
-        val sensitivity = AppSettings.getSensitivity(this)
-        val buttonId = when (sensitivity) {
-            AppSettings.Sensitivity.NEAR -> R.id.btnNear
-            AppSettings.Sensitivity.NORMAL -> R.id.btnNormal
-            AppSettings.Sensitivity.FAR -> R.id.btnFar
-        }
-        binding.toggleSensitivity.check(buttonId)
-        updateHint(sensitivity)
-        updateSensitivityEnabled(enabled)
         bindHomeSection()
+        bindWorkSection()
+        bindFavoriteSection()
         bindDeclinedSection()
 
         binding_ui = false
@@ -130,7 +149,7 @@ class SettingsActivity : AppCompatActivity() {
             displayName = device.displayName,
             iconKey = icon.key
         )
-        if (PermissionHelper.canMonitor(this)) {
+        if (AppSettings.isMonitoringEnabled(this) && PermissionHelper.canMonitor(this)) {
             MonitorService.start(this)
         }
         bindDeclinedSection()
@@ -147,7 +166,10 @@ class SettingsActivity : AppCompatActivity() {
         if (AppSettings.hasHome(this)) {
             binding.tvHomeStatus.text = getString(R.string.settings_home_set_status)
             binding.btnClearHome.visibility = View.VISIBLE
-            loadHomeAddress()
+            loadFixedPlaceAddress(
+                AppSettings.getHome(this),
+                binding.tvHomeAddress
+            )
         } else {
             binding.tvHomeStatus.text = getString(R.string.settings_home_not_set)
             binding.tvHomeAddress.visibility = View.GONE
@@ -155,27 +177,80 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadHomeAddress() {
-        val home = AppSettings.getHome(this) ?: return
-        binding.tvHomeAddress.visibility = View.VISIBLE
-        binding.tvHomeAddress.text = getString(R.string.settings_home_loading)
+    private fun bindWorkSection() {
+        val work = AppSettings.getWork(this)
+        if (work != null) {
+            binding.tvWorkStatus.text = getString(R.string.settings_work_set_status)
+            binding.btnClearWork.visibility = View.VISIBLE
+            if (!work.address.isNullOrBlank()) {
+                binding.tvWorkAddress.visibility = View.VISIBLE
+                binding.tvWorkAddress.text = work.address
+            } else {
+                loadFixedPlaceAddress(
+                    work.latitude to work.longitude,
+                    binding.tvWorkAddress
+                ) { address ->
+                    AppSettings.updateQuietPlaceAddress(this, work.id, address)
+                }
+            }
+        } else {
+            binding.tvWorkStatus.text = getString(R.string.settings_work_not_set)
+            binding.tvWorkAddress.visibility = View.GONE
+            binding.btnClearWork.visibility = View.GONE
+        }
+    }
 
-        if (!Geocoder.isPresent()) {
-            binding.tvHomeAddress.text = formatCoordinates(home.first, home.second)
+    private fun bindFavoriteSection() {
+        val favorites = AppSettings.getFavoritePlaces(this)
+        favoriteAdapter.submitList(favorites)
+        val hasItems = favorites.isNotEmpty()
+        binding.recyclerFavorites.visibility = if (hasItems) View.VISIBLE else View.GONE
+        binding.tvFavoriteEmpty.visibility = if (hasItems) View.GONE else View.VISIBLE
+        binding.btnAddFavorite.isEnabled = favorites.size < AppSettings.MAX_FAVORITE_PLACES
+    }
+
+    private fun removeFavorite(place: QuietPlace) {
+        AppSettings.removeQuietPlace(this, place.id)
+        bindFavoriteSection()
+        toast(R.string.settings_favorite_removed)
+    }
+
+    private fun loadFixedPlaceAddress(
+        coords: Pair<Double, Double>?,
+        target: android.widget.TextView,
+        onResolved: ((String?) -> Unit)? = null
+    ) {
+        if (coords == null) {
+            target.visibility = View.GONE
             return
         }
+        target.visibility = View.VISIBLE
+        target.text = getString(R.string.settings_home_loading)
+        resolveAddress(coords.first, coords.second) { address ->
+            target.text = address ?: formatCoordinates(coords.first, coords.second)
+            onResolved?.invoke(address)
+        }
+    }
 
+    private fun resolveAddress(
+        lat: Double,
+        lng: Double,
+        onResult: (String?) -> Unit
+    ) {
+        if (!Geocoder.isPresent()) {
+            onResult(null)
+            return
+        }
         lifecycleScope.launch {
             val address = withContext(Dispatchers.IO) {
                 runCatching {
                     val geocoder = Geocoder(this@SettingsActivity, Locale.getDefault())
                     @Suppress("DEPRECATION")
-                    val results = geocoder.getFromLocation(home.first, home.second, 1)
+                    val results = geocoder.getFromLocation(lat, lng, 1)
                     results?.firstOrNull()?.getAddressLine(0)
                 }.getOrNull()
             }
-            binding.tvHomeAddress.text =
-                address ?: formatCoordinates(home.first, home.second)
+            onResult(address)
         }
     }
 
@@ -183,11 +258,34 @@ class SettingsActivity : AppCompatActivity() {
         String.format(Locale.US, "%.5f, %.5f", lat, lng)
 
     private fun onSetHomeClicked() {
+        pendingLocationAction = PendingLocationAction.HOME
         if (!PermissionHelper.hasFineLocation(this)) {
             requestLocationLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             return
         }
         registerHomeHere()
+    }
+
+    private fun onSetWorkClicked() {
+        pendingLocationAction = PendingLocationAction.WORK
+        if (!PermissionHelper.hasFineLocation(this)) {
+            requestLocationLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            return
+        }
+        registerWorkHere()
+    }
+
+    private fun onAddFavoriteClicked() {
+        if (AppSettings.getFavoritePlaces(this).size >= AppSettings.MAX_FAVORITE_PLACES) {
+            toast(getString(R.string.settings_favorite_full, AppSettings.MAX_FAVORITE_PLACES))
+            return
+        }
+        pendingLocationAction = PendingLocationAction.FAVORITE
+        if (!PermissionHelper.hasFineLocation(this)) {
+            requestLocationLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            return
+        }
+        promptFavoriteNameThenRegister()
     }
 
     private fun registerHomeHere() {
@@ -197,28 +295,109 @@ class SettingsActivity : AppCompatActivity() {
                 toast(R.string.detail_address_unavailable)
                 return@launch
             }
-            AppSettings.setHome(this@SettingsActivity, location.latitude, location.longitude)
+            val address = withContext(Dispatchers.IO) {
+                reverseGeocode(location.latitude, location.longitude)
+            }
+            AppSettings.setHome(
+                this@SettingsActivity,
+                location.latitude,
+                location.longitude,
+                address
+            )
             bindHomeSection()
             toast(R.string.settings_home_saved)
         }
     }
 
-    private fun updateHint(sensitivity: AppSettings.Sensitivity) {
-        binding.tvSensitivityHint.text = getString(
-            when (sensitivity) {
-                AppSettings.Sensitivity.NEAR -> R.string.sensitivity_near_hint
-                AppSettings.Sensitivity.NORMAL -> R.string.sensitivity_normal_hint
-                AppSettings.Sensitivity.FAR -> R.string.sensitivity_far_hint
+    private fun registerWorkHere() {
+        lifecycleScope.launch {
+            val location = locationProvider.getCurrent()
+            if (location == null) {
+                toast(R.string.detail_address_unavailable)
+                return@launch
             }
-        )
+            val address = withContext(Dispatchers.IO) {
+                reverseGeocode(location.latitude, location.longitude)
+            }
+            AppSettings.setWork(
+                this@SettingsActivity,
+                location.latitude,
+                location.longitude,
+                address
+            )
+            bindWorkSection()
+            toast(R.string.settings_work_saved)
+        }
     }
 
-    private fun updateSensitivityEnabled(enabled: Boolean) {
-        binding.sensitivityCard.alpha = if (enabled) 1f else 0.5f
-        binding.toggleSensitivity.isEnabled = enabled
-        for (i in 0 until binding.toggleSensitivity.childCount) {
-            binding.toggleSensitivity.getChildAt(i).isEnabled = enabled
+    private fun promptFavoriteNameThenRegister() {
+        val padding = (20 * resources.displayMetrics.density).toInt()
+        val input = EditText(this).apply {
+            hint = getString(R.string.settings_favorite_name_hint)
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+            maxLines = 1
+            setPadding(padding)
         }
+        val container = FrameLayout(this).apply {
+            addView(
+                input,
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    marginStart = padding
+                    marginEnd = padding
+                }
+            )
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.settings_favorite_name_title)
+            .setView(container)
+            .setPositiveButton(R.string.edit_save) { _, _ ->
+                val name = input.text?.toString().orEmpty()
+                if (name.isBlank()) {
+                    toast(R.string.settings_favorite_name_empty)
+                    return@setPositiveButton
+                }
+                registerFavoriteHere(name)
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
+    }
+
+    private fun registerFavoriteHere(label: String) {
+        lifecycleScope.launch {
+            val location = locationProvider.getCurrent()
+            if (location == null) {
+                toast(R.string.detail_address_unavailable)
+                return@launch
+            }
+            val address = withContext(Dispatchers.IO) {
+                reverseGeocode(location.latitude, location.longitude)
+            }
+            val place = AppSettings.addFavoritePlace(
+                this@SettingsActivity,
+                label,
+                location.latitude,
+                location.longitude,
+                address
+            )
+            if (place == null) {
+                toast(getString(R.string.settings_favorite_full, AppSettings.MAX_FAVORITE_PLACES))
+                return@launch
+            }
+            bindFavoriteSection()
+            toast(R.string.settings_favorite_saved)
+        }
+    }
+
+    private fun reverseGeocode(lat: Double, lng: Double): String? {
+        if (!Geocoder.isPresent()) return null
+        return runCatching {
+            val geocoder = Geocoder(this, Locale.getDefault())
+            @Suppress("DEPRECATION")
+            geocoder.getFromLocation(lat, lng, 1)?.firstOrNull()?.getAddressLine(0)
+        }.getOrNull()
     }
 
     private fun toast(resId: Int) {

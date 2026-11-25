@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.memorypin.R
+import com.memorypin.data.ItemStatus
 import com.memorypin.data.MemoryPinRepository
 import com.memorypin.data.TrackedItem
 import com.memorypin.databinding.ActivityMainBinding
@@ -31,10 +32,12 @@ class MainActivity : AppCompatActivity() {
     private val adapter = TrackedItemAdapter { openDetail(it) }
 
     private var hasItems = false
+    /** 백그라운드 위치 안내 동의 후, 같은 흐름에서 시스템 권한을 요청할 때 사용 */
+    private var backgroundDisclosureAccepted = false
 
     private val requestCoreLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { maybeRequestBackgroundLocation() }
+    ) { requestBackgroundLocationIfNeeded() }
 
     private val requestBackgroundLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddItemActivity::class.java))
         }
         binding.statusCard.setOnClickListener {
-            ensurePermissionsForMonitoring(force = true)
+            toggleMonitoring()
         }
         binding.btnSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
@@ -86,7 +89,7 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 MemoryPinRepository.items.collect { items ->
                     hasItems = items.isNotEmpty()
-                    adapter.submitList(items)
+                    adapter.submitList(sortHomeItems(items))
                     binding.emptyState.visibility = if (hasItems) View.GONE else View.VISIBLE
                     binding.recyclerItems.visibility = if (hasItems) View.VISIBLE else View.GONE
                     binding.sectionLabel.visibility = if (hasItems) View.VISIBLE else View.GONE
@@ -108,6 +111,25 @@ class MainActivity : AppCompatActivity() {
             Intent(this, SpotDetailActivity::class.java)
                 .putExtra(SpotDetailActivity.EXTRA_ITEM_ID, item.id)
         )
+    }
+
+    /**
+     * 홈 목록 우선순위:
+     * 1) 두고 온 기기  2) 함께 있는 기기  3) 함께 이동 중  4) 그 외(최근 저장 시각 순)
+     */
+    private fun sortHomeItems(items: List<TrackedItem>): List<TrackedItem> =
+        items.sortedWith(
+            compareBy<TrackedItem> { homeSortPriority(it) }
+                .thenByDescending { it.lastSpot?.savedAt ?: 0L }
+                .thenBy { it.displayName.lowercase() }
+        )
+
+    private fun homeSortPriority(item: TrackedItem): Int = when {
+        !item.enabled -> 4
+        item.status == ItemStatus.LEFT_BEHIND -> 0
+        item.status == ItemStatus.PRESENT -> 1
+        item.carryingWhileDisconnected -> 2
+        else -> 3
     }
 
     private fun updateMonitoringStatus() {
@@ -134,8 +156,52 @@ class MainActivity : AppCompatActivity() {
     // ---- 권한 ----
 
     private fun ensurePermissionsForMonitoring(force: Boolean) {
+        // Play 정책: 시스템 위치 권한보다 백그라운드 위치 안내/동의가 먼저 나와야 함
+        if (needsBackgroundDisclosure()) {
+            if (force || !wasAsked()) {
+                showBackgroundDisclosure()
+            }
+            return
+        }
+        requestCorePermissionsThenBackground(force)
+    }
+
+    private fun needsBackgroundDisclosure(): Boolean =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            !PermissionHelper.hasBackgroundLocation(this) &&
+            !backgroundDisclosureAccepted
+
+    private fun showBackgroundDisclosure() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_background_location, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogView.findViewById<View>(R.id.btnDialogAllow).setOnClickListener {
+            backgroundDisclosureAccepted = true
+            markAsked()
+            dialog.dismiss()
+            // 다이얼로그가 완전히 닫힌 뒤에 시스템 권한을 요청해야 창이 뜸
+            binding.root.post { requestCorePermissionsThenBackground(force = true) }
+        }
+        dialogView.findViewById<View>(R.id.btnDialogLater).setOnClickListener {
+            markAsked()
+            dialog.dismiss()
+            startServiceIfReady()
+        }
+
+        dialog.show()
+    }
+
+    private fun requestCorePermissionsThenBackground(force: Boolean) {
         val needed = mutableListOf<String>()
-        if (!PermissionHelper.hasFineLocation(this)) {
+        // 대략 위치만 있어도 hasFineLocation=true가 될 수 있어, 정확한 위치를 따로 확인한다.
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
             needed += Manifest.permission.ACCESS_FINE_LOCATION
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
@@ -155,37 +221,52 @@ class MainActivity : AppCompatActivity() {
                 requestCoreLauncher.launch(needed.toTypedArray())
             }
         } else {
-            maybeRequestBackgroundLocation()
+            requestBackgroundLocationIfNeeded()
         }
     }
 
-    private fun maybeRequestBackgroundLocation() {
+    private fun requestBackgroundLocationIfNeeded() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-            PermissionHelper.hasFineLocation(this) &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == android.content.pm.PackageManager.PERMISSION_GRANTED &&
             !PermissionHelper.hasBackgroundLocation(this)
         ) {
-            AlertDialog.Builder(this)
-                .setTitle(R.string.perm_title)
-                .setMessage(R.string.perm_background_rationale)
-                .setPositiveButton(R.string.perm_allow) { _, _ ->
-                    requestBackgroundLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                }
-                .setNegativeButton(R.string.perm_later) { _, _ -> startServiceIfReady() }
-                .show()
+            if (!backgroundDisclosureAccepted) {
+                showBackgroundDisclosure()
+                return
+            }
+            binding.root.post {
+                requestBackgroundLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            }
         } else {
             startServiceIfReady()
         }
     }
 
+    private fun toggleMonitoring() {
+        if (shouldRunMonitor()) {
+            AppSettings.setMonitoringEnabled(this, false)
+            MonitorService.stop(this)
+            updateMonitoringStatus()
+            return
+        }
+        AppSettings.setMonitoringEnabled(this, true)
+        ensurePermissionsForMonitoring(force = true)
+        startServiceIfReady()
+    }
+
     private fun startServiceIfReady() {
         if (shouldRunMonitor()) {
             MonitorService.start(this)
+        } else {
+            MonitorService.stop(this)
         }
         updateMonitoringStatus()
     }
 
     private fun shouldRunMonitor(): Boolean =
-        PermissionHelper.canMonitor(this) &&
+        AppSettings.isMonitoringEnabled(this) &&
+            PermissionHelper.canMonitor(this) &&
             (hasItems || AppSettings.isAutoRegisterOnConnectEnabled(this))
 
     private fun wasAsked(): Boolean =

@@ -46,8 +46,8 @@ class TrackedItemAdapter(
                 !item.enabled -> ctx.getString(R.string.item_disabled)
                 item.carryingWhileDisconnected -> ctx.getString(R.string.item_carrying)
                 item.status == ItemStatus.LEFT_BEHIND -> ctx.getString(R.string.item_left_behind)
-                item.status == ItemStatus.PRESENT -> ctx.getString(R.string.item_present)
                 item.lastSpot == null -> ctx.getString(R.string.item_no_spot)
+                item.status == ItemStatus.PRESENT -> ctx.getString(R.string.item_present)
                 else -> ctx.getString(R.string.item_saved_prefix) +
                     TimeFormat.relative(item.lastSpot.savedAt)
             }
@@ -56,9 +56,9 @@ class TrackedItemAdapter(
                 !item.enabled -> R.color.on_surface_variant
                 item.carryingWhileDisconnected -> R.color.type_watch
                 item.status == ItemStatus.LEFT_BEHIND -> R.color.error
+                item.lastSpot == null -> R.color.on_surface_variant
                 item.status == ItemStatus.PRESENT -> R.color.success
-                item.lastSpot != null -> R.color.primary
-                else -> R.color.type_watch
+                else -> R.color.primary
             }
             binding.statusDot.backgroundTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(ctx, dotColor))

@@ -2,6 +2,7 @@ package com.memorypin.data
 
 import android.content.Context
 import com.memorypin.connection.SourceType
+import com.memorypin.util.AppSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,7 +30,13 @@ object MemoryPinRepository {
     fun init(context: Context) {
         if (::appContext.isInitialized) return
         appContext = context.applicationContext
-        _items.value = load()
+        var list = load()
+        val legacySensitivity = AppSettings.consumeLegacySensitivity(context)
+        if (legacySensitivity != null) {
+            list = list.map { it.copy(sensitivity = legacySensitivity) }
+            persist(list)
+        }
+        _items.value = list
     }
 
     // ---- 조회 ----
@@ -52,7 +59,13 @@ object MemoryPinRepository {
     ): TrackedItem {
         val existing = findBySource(sourceType, sourceId)
         if (existing != null) {
-            val updated = existing.copy(enabled = true, displayName = displayName, iconKey = iconKey)
+            val updated = existing.copy(
+                enabled = true,
+                // 사용자가 별명을 바꾼 경우 덮어쓰지 않는다.
+                displayName = if (existing.hasCustomName) existing.displayName else displayName,
+                originalName = displayName,
+                iconKey = iconKey
+            )
             replace(updated)
             return updated
         }
@@ -61,6 +74,7 @@ object MemoryPinRepository {
             sourceType = sourceType,
             sourceId = sourceId,
             displayName = displayName,
+            originalName = displayName,
             iconKey = iconKey,
             enabled = true,
             alertEnabled = true,
@@ -74,12 +88,26 @@ object MemoryPinRepository {
 
     fun update(item: TrackedItem) = replace(item)
 
+    fun setDisplayName(id: String, displayName: String) {
+        val trimmed = displayName.trim()
+        if (trimmed.isEmpty()) return
+        getById(id)?.let {
+            if (it.displayName != trimmed) replace(it.copy(displayName = trimmed))
+        }
+    }
+
     fun setEnabled(id: String, enabled: Boolean) {
         getById(id)?.let { replace(it.copy(enabled = enabled)) }
     }
 
     fun setAlertEnabled(id: String, alertEnabled: Boolean) {
         getById(id)?.let { replace(it.copy(alertEnabled = alertEnabled)) }
+    }
+
+    fun setSensitivity(id: String, sensitivity: AppSettings.Sensitivity) {
+        getById(id)?.let {
+            if (it.sensitivity != sensitivity) replace(it.copy(sensitivity = sensitivity))
+        }
     }
 
     fun setStatus(id: String, status: ItemStatus) {
@@ -175,9 +203,11 @@ object MemoryPinRepository {
         put("sourceType", sourceType.key)
         put("sourceId", sourceId)
         put("displayName", displayName)
+        put("originalName", originalName)
         put("iconKey", iconKey)
         put("enabled", enabled)
         put("alertEnabled", alertEnabled)
+        put("sensitivity", sensitivity.key)
         put("carryingWhileDisconnected", carryingWhileDisconnected)
         put("status", status.key)
         put("createdAt", createdAt)
@@ -192,19 +222,26 @@ object MemoryPinRepository {
         memo?.let { put("memo", it) }
     }
 
-    private fun JSONObject.toTrackedItem(): TrackedItem = TrackedItem(
-        id = getString("id"),
-        sourceType = SourceType.fromKey(optString("sourceType")),
-        sourceId = getString("sourceId"),
-        displayName = optString("displayName"),
-        iconKey = optString("iconKey", "other"),
-        enabled = optBoolean("enabled", true),
-        alertEnabled = optBoolean("alertEnabled", true),
-        carryingWhileDisconnected = optBoolean("carryingWhileDisconnected", false),
-        status = ItemStatus.fromKey(optString("status")),
-        createdAt = optLong("createdAt", System.currentTimeMillis()),
-        lastSpot = optJSONObject("lastSpot")?.toSpot()
-    )
+    private fun JSONObject.toTrackedItem(): TrackedItem {
+        val name = optString("displayName")
+        return TrackedItem(
+            id = getString("id"),
+            sourceType = SourceType.fromKey(optString("sourceType")),
+            sourceId = getString("sourceId"),
+            displayName = name,
+            originalName = optString("originalName").ifBlank { name },
+            iconKey = optString("iconKey", "other"),
+            enabled = optBoolean("enabled", true),
+            alertEnabled = optBoolean("alertEnabled", true),
+            sensitivity = AppSettings.Sensitivity.fromKey(
+                optString("sensitivity").ifBlank { null }
+            ),
+            carryingWhileDisconnected = optBoolean("carryingWhileDisconnected", false),
+            status = ItemStatus.fromKey(optString("status")),
+            createdAt = optLong("createdAt", System.currentTimeMillis()),
+            lastSpot = optJSONObject("lastSpot")?.toSpot()
+        )
+    }
 
     private fun JSONObject.toSpot(): Spot = Spot(
         latitude = getDouble("latitude"),

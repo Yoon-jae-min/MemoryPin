@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.memorypin.R;
@@ -26,22 +25,22 @@ public final class ActivitySettingsBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
+  public final MaterialButton btnAddFavorite;
+
+  @NonNull
   public final ImageView btnBack;
 
   @NonNull
   public final MaterialButton btnClearHome;
 
   @NonNull
-  public final MaterialButton btnFar;
-
-  @NonNull
-  public final MaterialButton btnNear;
-
-  @NonNull
-  public final MaterialButton btnNormal;
+  public final MaterialButton btnClearWork;
 
   @NonNull
   public final MaterialButton btnSetHome;
+
+  @NonNull
+  public final MaterialButton btnSetWork;
 
   @NonNull
   public final MaterialCardView declinedCard;
@@ -50,7 +49,7 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final RecyclerView recyclerDeclined;
 
   @NonNull
-  public final MaterialCardView sensitivityCard;
+  public final RecyclerView recyclerFavorites;
 
   @NonNull
   public final MaterialSwitch switchAutoRegister;
@@ -59,10 +58,13 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final MaterialSwitch switchLeftBehind;
 
   @NonNull
-  public final MaterialButtonToggleGroup toggleSensitivity;
+  public final TextView tvDeclinedEmpty;
 
   @NonNull
-  public final TextView tvDeclinedEmpty;
+  public final TextView tvFavoriteDesc;
+
+  @NonNull
+  public final TextView tvFavoriteEmpty;
 
   @NonNull
   public final TextView tvHomeAddress;
@@ -71,34 +73,40 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final TextView tvHomeStatus;
 
   @NonNull
-  public final TextView tvSensitivityHint;
+  public final TextView tvWorkAddress;
 
-  private ActivitySettingsBinding(@NonNull LinearLayout rootView, @NonNull ImageView btnBack,
-      @NonNull MaterialButton btnClearHome, @NonNull MaterialButton btnFar,
-      @NonNull MaterialButton btnNear, @NonNull MaterialButton btnNormal,
-      @NonNull MaterialButton btnSetHome, @NonNull MaterialCardView declinedCard,
-      @NonNull RecyclerView recyclerDeclined, @NonNull MaterialCardView sensitivityCard,
-      @NonNull MaterialSwitch switchAutoRegister, @NonNull MaterialSwitch switchLeftBehind,
-      @NonNull MaterialButtonToggleGroup toggleSensitivity, @NonNull TextView tvDeclinedEmpty,
+  @NonNull
+  public final TextView tvWorkStatus;
+
+  private ActivitySettingsBinding(@NonNull LinearLayout rootView,
+      @NonNull MaterialButton btnAddFavorite, @NonNull ImageView btnBack,
+      @NonNull MaterialButton btnClearHome, @NonNull MaterialButton btnClearWork,
+      @NonNull MaterialButton btnSetHome, @NonNull MaterialButton btnSetWork,
+      @NonNull MaterialCardView declinedCard, @NonNull RecyclerView recyclerDeclined,
+      @NonNull RecyclerView recyclerFavorites, @NonNull MaterialSwitch switchAutoRegister,
+      @NonNull MaterialSwitch switchLeftBehind, @NonNull TextView tvDeclinedEmpty,
+      @NonNull TextView tvFavoriteDesc, @NonNull TextView tvFavoriteEmpty,
       @NonNull TextView tvHomeAddress, @NonNull TextView tvHomeStatus,
-      @NonNull TextView tvSensitivityHint) {
+      @NonNull TextView tvWorkAddress, @NonNull TextView tvWorkStatus) {
     this.rootView = rootView;
+    this.btnAddFavorite = btnAddFavorite;
     this.btnBack = btnBack;
     this.btnClearHome = btnClearHome;
-    this.btnFar = btnFar;
-    this.btnNear = btnNear;
-    this.btnNormal = btnNormal;
+    this.btnClearWork = btnClearWork;
     this.btnSetHome = btnSetHome;
+    this.btnSetWork = btnSetWork;
     this.declinedCard = declinedCard;
     this.recyclerDeclined = recyclerDeclined;
-    this.sensitivityCard = sensitivityCard;
+    this.recyclerFavorites = recyclerFavorites;
     this.switchAutoRegister = switchAutoRegister;
     this.switchLeftBehind = switchLeftBehind;
-    this.toggleSensitivity = toggleSensitivity;
     this.tvDeclinedEmpty = tvDeclinedEmpty;
+    this.tvFavoriteDesc = tvFavoriteDesc;
+    this.tvFavoriteEmpty = tvFavoriteEmpty;
     this.tvHomeAddress = tvHomeAddress;
     this.tvHomeStatus = tvHomeStatus;
-    this.tvSensitivityHint = tvSensitivityHint;
+    this.tvWorkAddress = tvWorkAddress;
+    this.tvWorkStatus = tvWorkStatus;
   }
 
   @Override
@@ -128,6 +136,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnAddFavorite;
+      MaterialButton btnAddFavorite = ViewBindings.findChildViewById(rootView, id);
+      if (btnAddFavorite == null) {
+        break missingId;
+      }
+
       id = R.id.btnBack;
       ImageView btnBack = ViewBindings.findChildViewById(rootView, id);
       if (btnBack == null) {
@@ -140,27 +154,21 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.btnFar;
-      MaterialButton btnFar = ViewBindings.findChildViewById(rootView, id);
-      if (btnFar == null) {
-        break missingId;
-      }
-
-      id = R.id.btnNear;
-      MaterialButton btnNear = ViewBindings.findChildViewById(rootView, id);
-      if (btnNear == null) {
-        break missingId;
-      }
-
-      id = R.id.btnNormal;
-      MaterialButton btnNormal = ViewBindings.findChildViewById(rootView, id);
-      if (btnNormal == null) {
+      id = R.id.btnClearWork;
+      MaterialButton btnClearWork = ViewBindings.findChildViewById(rootView, id);
+      if (btnClearWork == null) {
         break missingId;
       }
 
       id = R.id.btnSetHome;
       MaterialButton btnSetHome = ViewBindings.findChildViewById(rootView, id);
       if (btnSetHome == null) {
+        break missingId;
+      }
+
+      id = R.id.btnSetWork;
+      MaterialButton btnSetWork = ViewBindings.findChildViewById(rootView, id);
+      if (btnSetWork == null) {
         break missingId;
       }
 
@@ -176,9 +184,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.sensitivityCard;
-      MaterialCardView sensitivityCard = ViewBindings.findChildViewById(rootView, id);
-      if (sensitivityCard == null) {
+      id = R.id.recyclerFavorites;
+      RecyclerView recyclerFavorites = ViewBindings.findChildViewById(rootView, id);
+      if (recyclerFavorites == null) {
         break missingId;
       }
 
@@ -194,15 +202,21 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.toggleSensitivity;
-      MaterialButtonToggleGroup toggleSensitivity = ViewBindings.findChildViewById(rootView, id);
-      if (toggleSensitivity == null) {
-        break missingId;
-      }
-
       id = R.id.tvDeclinedEmpty;
       TextView tvDeclinedEmpty = ViewBindings.findChildViewById(rootView, id);
       if (tvDeclinedEmpty == null) {
+        break missingId;
+      }
+
+      id = R.id.tvFavoriteDesc;
+      TextView tvFavoriteDesc = ViewBindings.findChildViewById(rootView, id);
+      if (tvFavoriteDesc == null) {
+        break missingId;
+      }
+
+      id = R.id.tvFavoriteEmpty;
+      TextView tvFavoriteEmpty = ViewBindings.findChildViewById(rootView, id);
+      if (tvFavoriteEmpty == null) {
         break missingId;
       }
 
@@ -218,16 +232,22 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvSensitivityHint;
-      TextView tvSensitivityHint = ViewBindings.findChildViewById(rootView, id);
-      if (tvSensitivityHint == null) {
+      id = R.id.tvWorkAddress;
+      TextView tvWorkAddress = ViewBindings.findChildViewById(rootView, id);
+      if (tvWorkAddress == null) {
         break missingId;
       }
 
-      return new ActivitySettingsBinding((LinearLayout) rootView, btnBack, btnClearHome, btnFar,
-          btnNear, btnNormal, btnSetHome, declinedCard, recyclerDeclined, sensitivityCard,
-          switchAutoRegister, switchLeftBehind, toggleSensitivity, tvDeclinedEmpty, tvHomeAddress,
-          tvHomeStatus, tvSensitivityHint);
+      id = R.id.tvWorkStatus;
+      TextView tvWorkStatus = ViewBindings.findChildViewById(rootView, id);
+      if (tvWorkStatus == null) {
+        break missingId;
+      }
+
+      return new ActivitySettingsBinding((LinearLayout) rootView, btnAddFavorite, btnBack,
+          btnClearHome, btnClearWork, btnSetHome, btnSetWork, declinedCard, recyclerDeclined,
+          recyclerFavorites, switchAutoRegister, switchLeftBehind, tvDeclinedEmpty, tvFavoriteDesc,
+          tvFavoriteEmpty, tvHomeAddress, tvHomeStatus, tvWorkAddress, tvWorkStatus);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

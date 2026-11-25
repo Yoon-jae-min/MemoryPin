@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -29,7 +31,16 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
   public final ImageView btnBack;
 
   @NonNull
+  public final MaterialButton btnFar;
+
+  @NonNull
   public final MaterialButton btnNavigate;
+
+  @NonNull
+  public final MaterialButton btnNear;
+
+  @NonNull
+  public final MaterialButton btnNormal;
 
   @NonNull
   public final MaterialButton btnOpenMap;
@@ -59,7 +70,13 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
   public final TextInputLayout memoLayout;
 
   @NonNull
+  public final LinearLayout nameRow;
+
+  @NonNull
   public final LinearLayout noSpotState;
+
+  @NonNull
+  public final MaterialCardView sensitivityCard;
 
   @NonNull
   public final LinearLayout spotContent;
@@ -69,6 +86,9 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
 
   @NonNull
   public final MaterialSwitch switchTracking;
+
+  @NonNull
+  public final MaterialButtonToggleGroup toggleSensitivity;
 
   @NonNull
   public final TextView tvAddress;
@@ -86,21 +106,31 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
   public final TextView tvSavedAt;
 
   @NonNull
+  public final TextView tvSensitivityHint;
+
+  @NonNull
   public final TextView tvType;
 
   private ActivitySpotDetailBinding(@NonNull LinearLayout rootView, @NonNull ImageView btnBack,
-      @NonNull MaterialButton btnNavigate, @NonNull MaterialButton btnOpenMap,
-      @NonNull MaterialButton btnRemove, @NonNull MaterialButton btnSaveNow,
-      @NonNull MaterialButton btnSaveNowEmpty, @NonNull TextInputEditText editMemo,
-      @NonNull FrameLayout iconHolder, @NonNull ImageView imgIcon, @NonNull FrameLayout mapPreview,
-      @NonNull TextInputLayout memoLayout, @NonNull LinearLayout noSpotState,
+      @NonNull MaterialButton btnFar, @NonNull MaterialButton btnNavigate,
+      @NonNull MaterialButton btnNear, @NonNull MaterialButton btnNormal,
+      @NonNull MaterialButton btnOpenMap, @NonNull MaterialButton btnRemove,
+      @NonNull MaterialButton btnSaveNow, @NonNull MaterialButton btnSaveNowEmpty,
+      @NonNull TextInputEditText editMemo, @NonNull FrameLayout iconHolder,
+      @NonNull ImageView imgIcon, @NonNull FrameLayout mapPreview,
+      @NonNull TextInputLayout memoLayout, @NonNull LinearLayout nameRow,
+      @NonNull LinearLayout noSpotState, @NonNull MaterialCardView sensitivityCard,
       @NonNull LinearLayout spotContent, @NonNull MaterialSwitch switchAlert,
-      @NonNull MaterialSwitch switchTracking, @NonNull TextView tvAddress,
-      @NonNull TextView tvCoordinates, @NonNull TextView tvHeaderTitle, @NonNull TextView tvName,
-      @NonNull TextView tvSavedAt, @NonNull TextView tvType) {
+      @NonNull MaterialSwitch switchTracking, @NonNull MaterialButtonToggleGroup toggleSensitivity,
+      @NonNull TextView tvAddress, @NonNull TextView tvCoordinates, @NonNull TextView tvHeaderTitle,
+      @NonNull TextView tvName, @NonNull TextView tvSavedAt, @NonNull TextView tvSensitivityHint,
+      @NonNull TextView tvType) {
     this.rootView = rootView;
     this.btnBack = btnBack;
+    this.btnFar = btnFar;
     this.btnNavigate = btnNavigate;
+    this.btnNear = btnNear;
+    this.btnNormal = btnNormal;
     this.btnOpenMap = btnOpenMap;
     this.btnRemove = btnRemove;
     this.btnSaveNow = btnSaveNow;
@@ -110,15 +140,19 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
     this.imgIcon = imgIcon;
     this.mapPreview = mapPreview;
     this.memoLayout = memoLayout;
+    this.nameRow = nameRow;
     this.noSpotState = noSpotState;
+    this.sensitivityCard = sensitivityCard;
     this.spotContent = spotContent;
     this.switchAlert = switchAlert;
     this.switchTracking = switchTracking;
+    this.toggleSensitivity = toggleSensitivity;
     this.tvAddress = tvAddress;
     this.tvCoordinates = tvCoordinates;
     this.tvHeaderTitle = tvHeaderTitle;
     this.tvName = tvName;
     this.tvSavedAt = tvSavedAt;
+    this.tvSensitivityHint = tvSensitivityHint;
     this.tvType = tvType;
   }
 
@@ -155,9 +189,27 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnFar;
+      MaterialButton btnFar = ViewBindings.findChildViewById(rootView, id);
+      if (btnFar == null) {
+        break missingId;
+      }
+
       id = R.id.btnNavigate;
       MaterialButton btnNavigate = ViewBindings.findChildViewById(rootView, id);
       if (btnNavigate == null) {
+        break missingId;
+      }
+
+      id = R.id.btnNear;
+      MaterialButton btnNear = ViewBindings.findChildViewById(rootView, id);
+      if (btnNear == null) {
+        break missingId;
+      }
+
+      id = R.id.btnNormal;
+      MaterialButton btnNormal = ViewBindings.findChildViewById(rootView, id);
+      if (btnNormal == null) {
         break missingId;
       }
 
@@ -215,9 +267,21 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.nameRow;
+      LinearLayout nameRow = ViewBindings.findChildViewById(rootView, id);
+      if (nameRow == null) {
+        break missingId;
+      }
+
       id = R.id.noSpotState;
       LinearLayout noSpotState = ViewBindings.findChildViewById(rootView, id);
       if (noSpotState == null) {
+        break missingId;
+      }
+
+      id = R.id.sensitivityCard;
+      MaterialCardView sensitivityCard = ViewBindings.findChildViewById(rootView, id);
+      if (sensitivityCard == null) {
         break missingId;
       }
 
@@ -236,6 +300,12 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
       id = R.id.switchTracking;
       MaterialSwitch switchTracking = ViewBindings.findChildViewById(rootView, id);
       if (switchTracking == null) {
+        break missingId;
+      }
+
+      id = R.id.toggleSensitivity;
+      MaterialButtonToggleGroup toggleSensitivity = ViewBindings.findChildViewById(rootView, id);
+      if (toggleSensitivity == null) {
         break missingId;
       }
 
@@ -269,16 +339,23 @@ public final class ActivitySpotDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvSensitivityHint;
+      TextView tvSensitivityHint = ViewBindings.findChildViewById(rootView, id);
+      if (tvSensitivityHint == null) {
+        break missingId;
+      }
+
       id = R.id.tvType;
       TextView tvType = ViewBindings.findChildViewById(rootView, id);
       if (tvType == null) {
         break missingId;
       }
 
-      return new ActivitySpotDetailBinding((LinearLayout) rootView, btnBack, btnNavigate,
-          btnOpenMap, btnRemove, btnSaveNow, btnSaveNowEmpty, editMemo, iconHolder, imgIcon,
-          mapPreview, memoLayout, noSpotState, spotContent, switchAlert, switchTracking, tvAddress,
-          tvCoordinates, tvHeaderTitle, tvName, tvSavedAt, tvType);
+      return new ActivitySpotDetailBinding((LinearLayout) rootView, btnBack, btnFar, btnNavigate,
+          btnNear, btnNormal, btnOpenMap, btnRemove, btnSaveNow, btnSaveNowEmpty, editMemo,
+          iconHolder, imgIcon, mapPreview, memoLayout, nameRow, noSpotState, sensitivityCard,
+          spotContent, switchAlert, switchTracking, toggleSensitivity, tvAddress, tvCoordinates,
+          tvHeaderTitle, tvName, tvSavedAt, tvSensitivityHint, tvType);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

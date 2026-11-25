@@ -110,7 +110,7 @@ class MonitorService : Service() {
 
         scope.launch {
             val location = locationProvider.getCurrent() ?: return@launch
-            val atHome = AppSettings.isAtHome(
+            val inQuietZone = AppSettings.isInQuietZone(
                 applicationContext, location.latitude, location.longitude
             )
 
@@ -123,8 +123,8 @@ class MonitorService : Service() {
             val saved = MemoryPinRepository.saveSpotForSource(event.type, event.sourceId, spot)
                 ?: return@launch
 
-            // 집에서는 위치만 조용히 저장하고 알림은 보내지 않는다.
-            if (atHome) return@launch
+            // 집·회사·자주 가는 곳에서는 위치만 조용히 저장하고 알림은 보내지 않는다.
+            if (inQuietZone) return@launch
 
             Notifications.showSavedNotification(applicationContext, saved)
 
@@ -143,13 +143,13 @@ class MonitorService : Service() {
         watchJobs.remove(itemId)?.cancel()
         watchJobs[itemId] = scope.launch {
             delay(DISCONNECT_DELAY_MS)
-            val thresholdMeters = AppSettings.getSensitivity(applicationContext).meters
             val deadline = System.currentTimeMillis() + MAX_WATCH_MS
 
             while (isActive && System.currentTimeMillis() < deadline) {
                 val item = MemoryPinRepository.getById(itemId)
                 if (item == null || item.carryingWhileDisconnected) break
 
+                val thresholdMeters = item.sensitivity.meters
                 val current = locationProvider.getCurrent()
                 if (current != null) {
                     val distance = GeoUtil.distanceMeters(

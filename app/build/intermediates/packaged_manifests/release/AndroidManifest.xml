@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.memorypin"
-    android:versionCode="1"
-    android:versionName="1.0.0" >
+    android:versionCode="11"
+    android:versionName="1.2.5" >
 
     <uses-sdk
         android:minSdkVersion="24"
-        android:targetSdkVersion="35" />
+        android:targetSdkVersion="36" />
 
     <!-- 위치: 연결이 끊긴 순간의 위치를 저장 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

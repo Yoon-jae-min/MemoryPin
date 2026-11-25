@@ -5,11 +5,15 @@ import android.content.Intent
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.setPadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -54,6 +58,7 @@ class SpotDetailActivity : AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener { finish() }
+        binding.nameRow.setOnClickListener { showRenameDialog() }
         binding.switchTracking.setOnCheckedChangeListener { _, checked ->
             if (bindingSwitch) return@setOnCheckedChangeListener
             itemId?.let { MemoryPinRepository.setEnabled(it, checked) }
@@ -61,6 +66,17 @@ class SpotDetailActivity : AppCompatActivity() {
         binding.switchAlert.setOnCheckedChangeListener { _, checked ->
             if (bindingSwitch) return@setOnCheckedChangeListener
             itemId?.let { MemoryPinRepository.setAlertEnabled(it, checked) }
+            updateSensitivityEnabled(checked)
+        }
+        binding.toggleSensitivity.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (bindingSwitch || !isChecked) return@addOnButtonCheckedListener
+            val sensitivity = when (checkedId) {
+                R.id.btnNear -> AppSettings.Sensitivity.NEAR
+                R.id.btnFar -> AppSettings.Sensitivity.FAR
+                else -> AppSettings.Sensitivity.NORMAL
+            }
+            itemId?.let { MemoryPinRepository.setSensitivity(it, sensitivity) }
+            updateSensitivityHint(sensitivity)
         }
         binding.btnOpenMap.setOnClickListener { openMap() }
         binding.mapPreview.setOnClickListener { openMap() }
@@ -97,11 +113,23 @@ class SpotDetailActivity : AppCompatActivity() {
         val icon = ItemIcon.fromKey(item.iconKey)
         binding.imgIcon.setImageResource(icon.drawableRes)
         binding.tvName.text = item.displayName
-        binding.tvType.text = getString(icon.labelRes)
+        binding.tvType.text = if (item.hasCustomName) {
+            getString(R.string.edit_name_original, item.originalName)
+        } else {
+            getString(icon.labelRes)
+        }
 
         bindingSwitch = true
         binding.switchTracking.isChecked = item.enabled
         binding.switchAlert.isChecked = item.alertEnabled
+        val sensitivityButtonId = when (item.sensitivity) {
+            AppSettings.Sensitivity.NEAR -> R.id.btnNear
+            AppSettings.Sensitivity.NORMAL -> R.id.btnNormal
+            AppSettings.Sensitivity.FAR -> R.id.btnFar
+        }
+        binding.toggleSensitivity.check(sensitivityButtonId)
+        updateSensitivityHint(item.sensitivity)
+        updateSensitivityEnabled(item.alertEnabled)
         bindingSwitch = false
 
         val spot = item.lastSpot
@@ -127,6 +155,48 @@ class SpotDetailActivity : AppCompatActivity() {
         }
 
         loadAddress(spot)
+    }
+
+    private fun showRenameDialog() {
+        val item = currentItem ?: return
+        val id = itemId ?: return
+        val padding = (20 * resources.displayMetrics.density).toInt()
+        val input = EditText(this).apply {
+            setText(item.displayName)
+            setSelection(text.length)
+            hint = getString(R.string.edit_name_hint)
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+            maxLines = 1
+            setPadding(padding)
+        }
+        val container = FrameLayout(this).apply {
+            addView(
+                input,
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    marginStart = padding
+                    marginEnd = padding
+                }
+            )
+        }
+        val message = getString(R.string.edit_name_original, item.originalName)
+        AlertDialog.Builder(this)
+            .setTitle(R.string.edit_name_title)
+            .setMessage(message)
+            .setView(container)
+            .setPositiveButton(R.string.edit_save) { _, _ ->
+                val name = input.text?.toString().orEmpty()
+                if (name.isBlank()) {
+                    toast(R.string.edit_name_empty)
+                    return@setPositiveButton
+                }
+                MemoryPinRepository.setDisplayName(id, name)
+                toast(R.string.edit_name_saved)
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
     }
 
     private fun loadAddress(spot: Spot) {
@@ -182,6 +252,24 @@ class SpotDetailActivity : AppCompatActivity() {
         val memo = binding.editMemo.text?.toString()?.ifBlank { null }
         if (memo != item.lastSpot.memo) {
             MemoryPinRepository.updateMemo(id, memo)
+        }
+    }
+
+    private fun updateSensitivityHint(sensitivity: AppSettings.Sensitivity) {
+        binding.tvSensitivityHint.text = getString(
+            when (sensitivity) {
+                AppSettings.Sensitivity.NEAR -> R.string.sensitivity_near_hint
+                AppSettings.Sensitivity.NORMAL -> R.string.sensitivity_normal_hint
+                AppSettings.Sensitivity.FAR -> R.string.sensitivity_far_hint
+            }
+        )
+    }
+
+    private fun updateSensitivityEnabled(enabled: Boolean) {
+        binding.sensitivityCard.alpha = if (enabled) 1f else 0.5f
+        binding.toggleSensitivity.isEnabled = enabled
+        for (i in 0 until binding.toggleSensitivity.childCount) {
+            binding.toggleSensitivity.getChildAt(i).isEnabled = enabled
         }
     }
 

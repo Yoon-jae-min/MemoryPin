@@ -42,6 +42,7 @@ com.memorypin.app-pngs-40 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\
 com.memorypin.app-resValues-41 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\build\generated\res\resValues\release
 com.memorypin.app-packageReleaseResources-42 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\build\intermediates\incremental\release\packageReleaseResources\merged.dir
 com.memorypin.app-packageReleaseResources-43 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\build\intermediates\incremental\release\packageReleaseResources\stripped.dir
-com.memorypin.app-merged_res-44 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\build\intermediates\merged_res\release
-com.memorypin.app-main-45 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\res
-com.memorypin.app-release-46 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\release\res
+com.memorypin.app-merged-not-compiled-resources-44 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\build\intermediates\merged-not-compiled-resources\release
+com.memorypin.app-merged_res-45 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\build\intermediates\merged_res\release
+com.memorypin.app-main-46 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\main\res
+com.memorypin.app-release-47 C:\Users\androidJM\Desktop\Project\Apps\MemoryPin\app\src\release\res

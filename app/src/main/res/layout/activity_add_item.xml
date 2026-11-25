@@ -112,13 +112,4 @@
         </LinearLayout>
     </FrameLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="@string/add_future_hint"
-        android:textColor="@color/on_surface_variant"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:lineSpacingExtra="2dp" />
 </LinearLayout>

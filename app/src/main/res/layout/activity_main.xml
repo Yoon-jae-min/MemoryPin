@@ -223,14 +223,14 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
+                        android:layout_marginTop="14dp"
+                        android:gravity="start"
+                        android:lineSpacingExtra="6dp"
                         android:text="@string/home_empty_desc"
                         android:textColor="@color/on_surface_variant"
-                        android:textSize="13sp"
-                        android:lineSpacingExtra="3dp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

@@ -2010,15 +2010,15 @@
     <string name="action_cancel">취소</string>
     <string name="action_delete">삭제</string>
     <string name="action_ok">확인</string>
-    <string name="ad_banner_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_banner_unit_id" translatable="false">ca-app-pub-7520135902300396/3545550805</string>
     <string name="add_already">이미 추가됨</string>
-    <string name="add_bluetooth_empty">페어링된 블루투스 기기가 없습니다.\n휴대폰 블루투스 설정에서 먼저 기기를 연결해 주세요.</string>
+    <string name="add_bluetooth_empty">연결된 기기가 없어요\n블루투스 설정에서 먼저 페어링하세요</string>
     <string name="add_bluetooth_section">페어링된 블루투스 기기</string>
-    <string name="add_future_hint">와이파이·스마트태그 등 다른 연결 방식은 다음 업데이트에서 추가될 예정입니다.</string>
-    <string name="add_need_bluetooth_permission">블루투스 권한이 필요합니다.</string>
+    <string name="add_future_hint">와이파이·스마트태그는 다음 업데이트에서 지원 예정입니다.</string>
+    <string name="add_need_bluetooth_permission">블루투스 권한이 필요해요</string>
     <string name="add_open_bluetooth_settings">블루투스 설정 열기</string>
     <string name="add_title">기기 추가</string>
-    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-7520135902300396~2818672355</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
     <string name="app_name">기억핀</string>
     <string name="app_subtitle">연결이 끊긴 순간, 마지막 위치를 기억합니다</string>
@@ -2075,9 +2075,16 @@
     <string name="detail_open_map">지도에서 열기</string>
     <string name="detail_save_now">지금 위치로 저장</string>
     <string name="detail_saved_at">저장 시각</string>
+    <string name="detail_sensitivity_desc">끊긴 위치에서 얼마나 멀어지면 알릴지 정합니다.</string>
+    <string name="detail_sensitivity_title">알림 민감도</string>
     <string name="detail_title">마지막 위치</string>
     <string name="edit_icon">아이콘</string>
     <string name="edit_name">이름</string>
+    <string name="edit_name_empty">이름을 입력해 주세요</string>
+    <string name="edit_name_hint">예: 내 이어폰</string>
+    <string name="edit_name_original">원래 이름: %1$s</string>
+    <string name="edit_name_saved">별명을 저장했어요</string>
+    <string name="edit_name_title">별명 변경</string>
     <string name="edit_remove">기기 삭제</string>
     <string name="edit_save">저장</string>
     <string name="edit_tracking">자동 저장</string>
@@ -2095,10 +2102,10 @@
     <string name="home_add_device">기기 추가</string>
     <string name="home_count_suffix">개</string>
     <string name="home_device_count">기기 %1$d개</string>
-    <string name="home_empty_desc">이어폰, 차량 블루투스 등 자주 쓰는 기기를 등록하면\n연결이 끊긴 순간의 위치를 자동으로 저장합니다.</string>
-    <string name="home_empty_title">아직 등록한 기기가 없어요</string>
+    <string name="home_empty_desc">① 권한 허용\n② 블루투스 페어링\n③ + 기기 추가</string>
+    <string name="home_empty_title">기기를 추가해 보세요</string>
     <string name="home_monitoring_off">자동 저장 꺼짐</string>
-    <string name="home_monitoring_off_desc">탭하여 권한을 허용해 주세요</string>
+    <string name="home_monitoring_off_desc">탭해서 권한을 허용해 주세요</string>
     <string name="home_monitoring_on">자동 저장 켜짐</string>
     <string name="home_monitoring_on_auto_register_desc">블루투스 연결 시 추적 여부를 물어봅니다</string>
     <string name="home_monitoring_on_desc">연결이 끊기면 위치를 저장합니다</string>
@@ -2113,7 +2120,7 @@
     <string name="item_carrying">함께 이동 중</string>
     <string name="item_disabled">일시중지됨</string>
     <string name="item_left_behind">두고 온 것 같아요</string>
-    <string name="item_no_spot">아직 저장된 위치가 없어요</string>
+    <string name="item_no_spot">아직 위치 정보가 없어요</string>
     <string name="item_present">함께 있어요</string>
     <string name="item_saved_prefix">마지막 위치 · </string>
     <string name="item_view_location">위치 보기</string>
@@ -2281,13 +2288,13 @@
     <string name="path_password_eye_mask_strike_through" translatable="false">M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
     <string name="path_password_eye_mask_visible" translatable="false">M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
     <string name="path_password_strike_through" translatable="false">M3.27,4.27 L19.74,20.74</string>
-    <string name="perm_allow">허용</string>
-    <string name="perm_background_rationale">앱을 보지 않을 때도 위치를 저장하려면 위치 권한을 \"항상 허용\"으로 설정해 주세요.</string>
-    <string name="perm_bluetooth_rationale">블루투스 연결/끊김을 감지하려면 근처 기기(블루투스) 권한이 필요합니다.</string>
+    <string name="perm_allow">동의하고 계속</string>
+    <string name="perm_background_rationale">기억핀은 앱이 종료되었거나 사용 중이 아닌 상태에서도 블루투스 기기 연결이 끊긴 순간의 위치를 저장하고, 기기를 두고 온 것 같을 때 알림을 보내기 위해 위치 데이터를 수집합니다.\n\n위치 정보는 기기를 찾는 용도로만 사용되며 외부에 공유·전송되지 않습니다.\n\n계속하려면 다음 화면에서 위치 권한을 \'항상 허용\'으로 선택해 주세요.</string>
+    <string name="perm_bluetooth_rationale">연결·끊김을 감지하려면 블루투스 권한이 필요해요.</string>
     <string name="perm_later">나중에</string>
-    <string name="perm_location_rationale">연결이 끊긴 순간의 위치를 저장하려면 위치 권한이 필요합니다.</string>
+    <string name="perm_location_rationale">끊긴 위치를 저장하려면 위치 권한이 필요해요.</string>
     <string name="perm_open_settings">설정 열기</string>
-    <string name="perm_title">권한 안내</string>
+    <string name="perm_title">백그라운드 위치 사용 안내</string>
     <string name="s1">Save image</string>
     <string name="s2">"Allow Ad to store image in Picture gallery?"</string>
     <string name="s3">Accept</string>
@@ -2316,9 +2323,21 @@
     <string name="settings_declined_title">추적 안 함 기기</string>
     <string name="settings_declined_track_again">다시 추적</string>
     <string name="settings_declined_tracked_again">%1$s 추적을 다시 시작했어요</string>
+    <string name="settings_favorite_add">현재 위치 추가</string>
+    <string name="settings_favorite_desc">카페·헬스장처럼 자주 가는 곳을 등록하면\n그 안에서는 알림을 보내지 않습니다. (최대 %1$d곳)</string>
+    <string name="settings_favorite_empty">등록된 곳이 없습니다</string>
+    <string name="settings_favorite_full">자주 가는 곳은 최대 %1$d곳까지 등록할 수 있어요</string>
+    <string name="settings_favorite_name_empty">이름을 입력해 주세요</string>
+    <string name="settings_favorite_name_hint">예: 헬스장, 단골 카페</string>
+    <string name="settings_favorite_name_title">장소 이름</string>
+    <string name="settings_favorite_remove">삭제</string>
+    <string name="settings_favorite_removed">삭제했어요</string>
+    <string name="settings_favorite_saved">자주 가는 곳으로 등록했어요</string>
+    <string name="settings_favorite_title">자주 가는 곳</string>
     <string name="settings_home_clear">집 등록 해제</string>
     <string name="settings_home_cleared">집 등록을 해제했어요</string>
     <string name="settings_home_desc">집(약 150m) 안에서 끊기면 위치는 저장하되\n알림은 보내지 않습니다.</string>
+    <string name="settings_home_label">집</string>
     <string name="settings_home_loading">주소 확인 중…</string>
     <string name="settings_home_not_set">등록된 집이 없습니다</string>
     <string name="settings_home_saved">집으로 등록했어요</string>
@@ -2330,6 +2349,15 @@
     <string name="settings_sensitivity_desc">끊긴 위치에서 얼마나 멀어지면 알릴지 정합니다.</string>
     <string name="settings_sensitivity_title">알림 민감도</string>
     <string name="settings_title">설정</string>
+    <string name="settings_work_clear">회사 등록 해제</string>
+    <string name="settings_work_cleared">회사 등록을 해제했어요</string>
+    <string name="settings_work_desc">회사(약 150m) 안에서 끊기면 위치는 저장하되\n알림은 보내지 않습니다.</string>
+    <string name="settings_work_label">회사</string>
+    <string name="settings_work_not_set">등록된 회사가 없습니다</string>
+    <string name="settings_work_saved">회사로 등록했어요</string>
+    <string name="settings_work_set">현재 위치를 회사로 등록</string>
+    <string name="settings_work_set_status">회사가 등록되어 있습니다</string>
+    <string name="settings_work_title">회사 등록</string>
     <string description="Title of the side sheet&apos;s accessibility pane that is spoken by TalkBack when the side sheet appears on screen. [CHAR_LIMIT=NONE]" name="side_sheet_accessibility_pane_title">Side Sheet</string>
     <string name="side_sheet_behavior" translatable="false">com.google.android.material.sidesheet.SideSheetBehavior</string>
     <string name="status_bar_notification_info_overflow">999+</string>
